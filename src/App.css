@@ -4,6 +4,10 @@
   box-sizing: border-box;
 }
 
+.bqh-logo {
+  text-decoration: none;
+}
+
 @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Manrope:wght@400;500;600;700;800&display=swap");
 
 html {

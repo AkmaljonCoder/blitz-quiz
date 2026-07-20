@@ -1,5 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Zap, Check, X, RotateCcw, Trophy, ChevronRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import "../Units.css";
 import { VOCAB_LEKTION_3 } from "../VOCAB";
 
@@ -127,14 +128,14 @@ function Unit3() {
       </div>
 
       <header className="bq-header">
-        <div className="bq-logo">
-          <div className="bq-logo-icon">
+        <Link className="bqh-logo" to="/">
+          <div className="bqh-logo-icon">
             <Zap size={19} color="#fff" fill="#fff" />
           </div>
-          <div className="bq-logo-text">
+          <div className="bqh-logo-text">
             Blitz<span> Quiz</span>
           </div>
-        </div>
+        </Link>
         {screen === "quiz" && (
           <div className="bq-badge">
             {index + 1} / {total}

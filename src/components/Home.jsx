@@ -70,12 +70,12 @@ function BlitzQuizHome() {
 
       <div className={shown ? "bqh-inner in" : "bqh-inner"} style={{ position: "relative" }}>
         <header className="bqh-header">
-          <div className="bqh-logo">
+          <Link className="bqh-logo" to="/">
             <div className="bqh-logo-icon">
               <Zap size={19} color="#fff" fill="#fff" />
             </div>
             <div className="bqh-logo-text">Blitz<span> Quiz</span></div>
-          </div>
+          </Link>
           <div className="bqh-badge">
             <Sparkles size={13} /> 6 ta dars
           </div>
