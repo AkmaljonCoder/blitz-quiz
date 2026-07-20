@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Zap,
   BookOpen,
@@ -15,12 +16,12 @@ import '../App.css';
 // Unit links — rename / point these to your real routes for each unit quiz
 // ---------------------------------------------------------------------------
 const UNITS = [
-  { id: 1, title: "Unit 1", href: "#unit-1" },
-  { id: 2, title: "Unit 2", href: "#unit-2" },
-  { id: 3, title: "Unit 3", href: "#unit-3" },
-  { id: 4, title: "Unit 4", href: "#unit-4" },
-  { id: 5, title: "Unit 5", href: "#unit-5" },
-  { id: 6, title: "Unit 6", href: "#unit-6" },
+  { id: 1, quantity: 20, title: "Ich heiße Miriam.", href: "unit-1" },
+  { id: 2, quantity: 20, title: "Was macht ihr beruflich?", href: "unit-2" },
+  { id: 3, quantity: 20, title: "Das ist meine Schwester.", href: "unit-3" },
+  { id: 4, quantity: 20, title: "Das ist meine Schwester.", href: "unit-4" },
+  { id: 5, quantity: 20, title: "Ist das ein Tisch?", href: "unit-5" },
+  { id: 6, quantity: 20, title: "Wir haben einen Termin.", href: "unit-6" },
 ];
 
 const FEATURES = [
@@ -133,16 +134,16 @@ function BlitzQuizHome() {
           </div>
           <div className="bqh-units">
             {UNITS.map((u, i) => (
-              <a className="bqh-unit" href={u.href} key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
+              <Link className="bqh-unit" to={u.href} key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
                 <div className="bqh-unit-left">
                   <div className="bqh-unit-num">{u.id}</div>
                   <div>
                     <div className="bqh-unit-title">{u.title}</div>
-                    <div className="bqh-unit-sub">20 ta savol</div>
+                    <div className="bqh-unit-sub">{u.quantity} ta savol</div>
                   </div>
                 </div>
                 <ArrowRight size={18} className="bqh-unit-arrow" />
-              </a>
+              </Link>
             ))}
           </div>
         </section>

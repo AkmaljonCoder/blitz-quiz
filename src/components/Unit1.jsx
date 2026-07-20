@@ -1,32 +1,7 @@
 import { useState, useMemo, useEffect, useRef } from "react";
 import { Zap, Check, X, RotateCcw, Trophy, ChevronRight } from "lucide-react";
-import '../Units.css';
-
-// ---------------------------------------------------------------------------
-// Vocabulary data (Lektion 3 — die Familie)
-// ---------------------------------------------------------------------------
-const VOCAB = [
-  { de: "die Familie", uz: "oila" },
-  { de: "die Mutter", uz: "ona" },
-  { de: "der Vater", uz: "ota" },
-  { de: "die Schwester", uz: "opa" },
-  { de: "der Bruder", uz: "aka" },
-  { de: "der Onkel", uz: "amaki" },
-  { de: "die Tante", uz: "xola" },
-  { de: "die Oma", uz: "buvi" },
-  { de: "der Opa", uz: "bobo" },
-  { de: "die Eltern", uz: "ota-ona" },
-  { de: "der Sohn", uz: "o'g'il farzand" },
-  { de: "die Tochter", uz: "qiz farzand" },
-  { de: "die Geschwister", uz: "aka-ukalar" },
-  { de: "der Ehemann", uz: "er" },
-  { de: "die Ehefrau", uz: "xotin" },
-  { de: "der Mann", uz: "erkak" },
-  { de: "die Frau", uz: "ayol" },
-  { de: "das Mitglied", uz: "a'zo" },
-  { de: "Deutsch", uz: "nemis tili" },
-  { de: "Englisch", uz: "ingliz tili" },
-];
+import "../Units.css";
+import { VOCAB_LEKTION_1 } from "../VOCAB";
 
 function shuffle(arr) {
   const a = [...arr];
@@ -38,10 +13,12 @@ function shuffle(arr) {
 }
 
 function buildQuiz() {
-  const items = shuffle(VOCAB);
+  const items = shuffle(VOCAB_LEKTION_1);
   return items.map((item) => {
-    const pool = VOCAB.filter((v) => v.uz !== item.uz);
-    const distractors = shuffle(pool).slice(0, 3).map((v) => v.uz);
+    const pool = VOCAB_LEKTION_1.filter((v) => v.uz !== item.uz);
+    const distractors = shuffle(pool)
+      .slice(0, 3)
+      .map((v) => v.uz);
     const options = shuffle([item.uz, ...distractors]);
     return {
       de: item.de,
@@ -65,7 +42,8 @@ function Unit1() {
   const cardRef = useRef(null);
 
   const current = quiz[index];
-  const progress = screen === "quiz" ? (index / total) * 100 : screen === "result" ? 100 : 0;
+  const progress =
+    screen === "quiz" ? (index / total) * 100 : screen === "result" ? 100 : 0;
 
   function startQuiz() {
     setScreen("quiz");
@@ -83,7 +61,10 @@ function Unit1() {
     setLocked(true);
     const isCorrect = opt === current.correct;
     if (isCorrect) setScore((s) => s + 1);
-    setAnswers((a) => [...a, { de: current.de, correct: current.correct, chosen: opt, isCorrect }]);
+    setAnswers((a) => [
+      ...a,
+      { de: current.de, correct: current.correct, chosen: opt, isCorrect },
+    ]);
   }
 
   function handleNext() {
@@ -108,15 +89,41 @@ function Unit1() {
 
   const percent = Math.round((score / total) * 100);
   const resultTier =
-    percent >= 90 ? "A'lo!" : percent >= 70 ? "Yaxshi!" : percent >= 50 ? "Yomon emas" : "Yana urinib ko'ring";
+    percent >= 90
+      ? "A'lo!"
+      : percent >= 70
+        ? "Yaxshi!"
+        : percent >= 50
+          ? "Yomon emas"
+          : "Yana urinib ko'ring";
 
   return (
     <div className="bq-root">
-
       <div className="bq-bolts">
-        <Zap className="bq-bolt" style={{ top: "8%", left: "6%", width: 60, height: 60 }} />
-        <Zap className="bq-bolt" style={{ top: "70%", left: "85%", width: 80, height: 80, animationDelay: "3s" }} />
-        <Zap className="bq-bolt" style={{ top: "40%", left: "92%", width: 40, height: 40, animationDelay: "6s" }} />
+        <Zap
+          className="bq-bolt"
+          style={{ top: "8%", left: "6%", width: 60, height: 60 }}
+        />
+        <Zap
+          className="bq-bolt"
+          style={{
+            top: "70%",
+            left: "85%",
+            width: 80,
+            height: 80,
+            animationDelay: "3s",
+          }}
+        />
+        <Zap
+          className="bq-bolt"
+          style={{
+            top: "40%",
+            left: "92%",
+            width: 40,
+            height: 40,
+            animationDelay: "6s",
+          }}
+        />
       </div>
 
       <header className="bq-header">
@@ -124,9 +131,15 @@ function Unit1() {
           <div className="bq-logo-icon">
             <Zap size={19} color="#fff" fill="#fff" />
           </div>
-          <div className="bq-logo-text">Blitz<span> Quiz</span></div>
+          <div className="bq-logo-text">
+            Blitz<span> Quiz</span>
+          </div>
         </div>
-        {screen === "quiz" && <div className="bq-badge">{index + 1} / {total}</div>}
+        {screen === "quiz" && (
+          <div className="bq-badge">
+            {index + 1} / {total}
+          </div>
+        )}
       </header>
 
       <div className="bq-progress-wrap">
@@ -148,15 +161,25 @@ function Unit1() {
             <div className="bq-start-icon">
               <Zap size={34} color="#fff" fill="#fff" />
             </div>
-            <h1>Nemis tili — Oila lug'ati</h1>
+            <h1>Nemis tili — Tanishuv lug'ati</h1>
             <p>
-              20 ta savol orqali oilaga oid nemischa so'zlarni bilimingizni sinab ko'ring.
-              Har bir savolda nemischa so'z ko'rsatiladi — siz to'g'ri o'zbekcha tarjimasini tanlaysiz.
+              20 ta savol orqali tanishuv va salomlashishga oid nemischa
+              so'zlarni bilimingizni sinab ko'ring. Har bir savolda nemischa
+              so'z ko'rsatiladi — siz to'g'ri o'zbekcha tarjimasini tanlaysiz.
             </p>
             <div className="bq-stats-row">
-              <div className="bq-stat-chip"><b>{total}</b><span>Savollar</span></div>
-              <div className="bq-stat-chip"><b>4</b><span>Variant</span></div>
-              <div className="bq-stat-chip"><b>A1</b><span>Daraja</span></div>
+              <div className="bq-stat-chip">
+                <b>{total}</b>
+                <span>Savollar</span>
+              </div>
+              <div className="bq-stat-chip">
+                <b>4</b>
+                <span>Variant</span>
+              </div>
+              <div className="bq-stat-chip">
+                <b>A1</b>
+                <span>Daraja</span>
+              </div>
             </div>
             <button className="bq-btn" onClick={startQuiz}>
               Boshlash <ChevronRight size={18} />
@@ -168,7 +191,9 @@ function Unit1() {
           <div className="bq-card" key={cardKey}>
             <div className="bq-q-eyebrow">Savol {index + 1}</div>
             <div className="bq-question">{current.de}</div>
-            <div className="bq-q-sub">Bu so'zning to'g'ri o'zbekcha tarjimasini tanlang</div>
+            <div className="bq-q-sub">
+              Bu so'zning to'g'ri o'zbekcha tarjimasini tanlang
+            </div>
 
             <div className="bq-options">
               {current.options.map((opt) => {
@@ -180,13 +205,22 @@ function Unit1() {
                   else cls += " dim";
                 }
                 return (
-                  <button key={opt} className={cls} onClick={() => handleSelect(opt)} disabled={locked}>
+                  <button
+                    key={opt}
+                    className={cls}
+                    onClick={() => handleSelect(opt)}
+                    disabled={locked}
+                  >
                     <span>{opt}</span>
                     {locked && opt === current.correct && (
-                      <span className="bq-opt-icon"><Check size={14} /></span>
+                      <span className="bq-opt-icon">
+                        <Check size={14} />
+                      </span>
                     )}
                     {locked && opt === selected && opt !== current.correct && (
-                      <span className="bq-opt-icon"><X size={14} /></span>
+                      <span className="bq-opt-icon">
+                        <X size={14} />
+                      </span>
                     )}
                   </button>
                 );
@@ -194,8 +228,12 @@ function Unit1() {
             </div>
 
             <div className="bq-next-row">
-              <button className={`bq-btn ${locked ? "show" : ""}`} onClick={handleNext}>
-                {index + 1 >= total ? "Natijani ko'rish" : "Keyingisi"} <ChevronRight size={18} />
+              <button
+                className={`bq-btn ${locked ? "show" : ""}`}
+                onClick={handleNext}
+              >
+                {index + 1 >= total ? "Natijani ko'rish" : "Keyingisi"}{" "}
+                <ChevronRight size={18} />
               </button>
             </div>
           </div>
@@ -203,17 +241,26 @@ function Unit1() {
 
         {screen === "result" && (
           <div className="bq-card bq-result">
-            <div className="bq-trophy"><Trophy size={38} color="#fff" /></div>
+            <div className="bq-trophy">
+              <Trophy size={38} color="#fff" />
+            </div>
             <h2>{resultTier}</h2>
-            <div className="bq-score-big">{score}/{total}</div>
+            <div className="bq-score-big">
+              {score}/{total}
+            </div>
             <div className="bq-score-sub">To'g'ri javoblar — {percent}%</div>
 
             <div className="bq-review">
               {answers.map((a, i) => (
-                <div key={i} className={`bq-review-item ${a.isCorrect ? "ok" : "bad"}`}>
+                <div
+                  key={i}
+                  className={`bq-review-item ${a.isCorrect ? "ok" : "bad"}`}
+                >
                   <div>
                     <div className="de">{a.de}</div>
-                    <div className="uz">{a.isCorrect ? a.correct : `${a.chosen} → ${a.correct}`}</div>
+                    <div className="uz">
+                      {a.isCorrect ? a.correct : `${a.chosen} → ${a.correct}`}
+                    </div>
                   </div>
                   <span className="bq-review-icon">
                     {a.isCorrect ? <Check size={13} /> : <X size={13} />}
