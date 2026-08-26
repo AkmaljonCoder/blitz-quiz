@@ -32,7 +32,7 @@ export const VOCAB_LEKTION_2 = [
   { de: "das Kind", uz: "bola" },
   { de: "wohnen", uz: "yashamoq" },
   { de: "der Partner", uz: "sherik" },
-  { de: "die Partnerin", uz: "sherika" },
+  { de: "die Partnerin", uz: "sherik" },
   { de: "der Beruf", uz: "kasb" },
   { de: "der Ingenieur", uz: "muhandis" },
   { de: "der Student", uz: "talaba" },
