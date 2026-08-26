@@ -1,8 +1,25 @@
 import { useState, useMemo, useEffect, useRef } from "react";
-import { Zap, Check, X, RotateCcw, Trophy, ChevronRight } from "lucide-react";
-import { Link } from "react-router-dom";
+import {
+  Zap,
+  Check,
+  X,
+  RotateCcw,
+  Trophy,
+  ChevronRight,
+  ChevronLeft,
+  RefreshCw,
+  PartyPopper,
+  Home as HomeIcon,
+  Layers,
+  RotateCw,
+  Shuffle,
+  ArrowLeft,
+  List,
+} from "lucide-react";
+import { Link, useParams } from "react-router-dom";
 import "../Units.css";
-import { VOCAB_LEKTION_1 } from "../VOCAB";
+import { VOCAB } from "../VOCAB";
+import QuizNotFound from "./QuizNotFound";
 
 function shuffle(arr) {
   const a = [...arr];
@@ -13,10 +30,10 @@ function shuffle(arr) {
   return a;
 }
 
-function buildQuiz() {
-  const items = shuffle(VOCAB_LEKTION_1);
+function buildQuiz(arr) {
+  const items = shuffle(arr);
   return items.map((item) => {
-    const pool = VOCAB_LEKTION_1.filter((v) => v.uz !== item.uz);
+    const pool = arr.filter((v) => v.uz !== item.uz);
     const distractors = shuffle(pool)
       .slice(0, 3)
       .map((v) => v.uz);
@@ -29,11 +46,22 @@ function buildQuiz() {
   });
 }
 
+const QUICK_QUIZ_SIZE = 20;
+
 function Quiz() {
-  const quiz = useMemo(() => buildQuiz(), []);
+  const { id } = useParams();
+  const currentQuiz = VOCAB.find((item) => item.id === Number(id));
+  const quizWords = currentQuiz?.words ?? [];
+
+  const [mode, setMode] = useState("quick"); // "quick" | "full"
+  const [quiz, setQuiz] = useState([]);
+  const [isReview, setIsReview] = useState(false);
   const total = quiz.length;
 
-  const [screen, setScreen] = useState("start"); // start | quiz | result
+  const quickCount = Math.min(QUICK_QUIZ_SIZE, quizWords.length);
+  const previewTotal = mode === "quick" ? quickCount : quizWords.length;
+
+  const [screen, setScreen] = useState("start"); // start | quiz | result | flashcards
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
   const [locked, setLocked] = useState(false);
@@ -42,11 +70,48 @@ function Quiz() {
   const [cardKey, setCardKey] = useState(0);
   const cardRef = useRef(null);
 
+  // FLASHCARDS
+  const [flashWords, setFlashWords] = useState([]);
+  const [flashIndex, setFlashIndex] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+
+  // ALL WORDS MODAL
+  const [showWords, setShowWords] = useState(false);
+
+  useEffect(() => {
+    document.body.style.overflow = showWords ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showWords]);
+
   const current = quiz[index];
+  const currentFlash = flashWords[flashIndex];
+
   const progress =
-    screen === "quiz" ? (index / total) * 100 : screen === "result" ? 100 : 0;
+    screen === "quiz"
+      ? (index / total) * 100
+      : screen === "result"
+        ? 100
+        : screen === "flashcards" && flashWords.length > 0
+          ? (flashIndex / flashWords.length) * 100
+          : 0;
+
+  const missedWords = useMemo(
+    () =>
+      answers
+        .filter((a) => !a.isCorrect)
+        .map((a) => quizWords.find((w) => w.de === a.de))
+        .filter(Boolean),
+    [answers, quizWords]
+  );
 
   function startQuiz() {
+    const selectedWords =
+      mode === "quick" ? shuffle(quizWords).slice(0, quickCount) : quizWords;
+
+    setIsReview(false);
+    setQuiz(buildQuiz(selectedWords));
     setScreen("quiz");
     setIndex(0);
     setScore(0);
@@ -54,6 +119,54 @@ function Quiz() {
     setSelected(null);
     setLocked(false);
     setCardKey((k) => k + 1);
+  }
+
+  function startReview() {
+    if (missedWords.length === 0) return;
+    setIsReview(true);
+    setQuiz(buildQuiz(missedWords));
+    setScreen("quiz");
+    setIndex(0);
+    setScore(0);
+    setAnswers([]);
+    setSelected(null);
+    setLocked(false);
+    setCardKey((k) => k + 1);
+  }
+
+  function startFlashcards() {
+    setFlashWords(shuffle(quizWords));
+    setFlashIndex(0);
+    setFlipped(false);
+    setScreen("flashcards");
+  }
+
+  function flipCard() {
+    setFlipped((f) => !f);
+  }
+
+  function nextFlashcard() {
+    if (flashIndex + 1 >= flashWords.length) {
+      setFlashIndex(0);
+    } else {
+      setFlashIndex((i) => i + 1);
+    }
+    setFlipped(false);
+  }
+
+  function prevFlashcard() {
+    if (flashIndex === 0) {
+      setFlashIndex(flashWords.length - 1);
+    } else {
+      setFlashIndex((i) => i - 1);
+    }
+    setFlipped(false);
+  }
+
+  function reshuffleFlashcards() {
+    setFlashWords(shuffle(quizWords));
+    setFlashIndex(0);
+    setFlipped(false);
   }
 
   function handleSelect(opt) {
@@ -80,6 +193,7 @@ function Quiz() {
   }
 
   function restart() {
+    setIsReview(false);
     setScreen("start");
     setIndex(0);
     setScore(0);
@@ -88,7 +202,7 @@ function Quiz() {
     setLocked(false);
   }
 
-  const percent = Math.round((score / total) * 100);
+  const percent = total > 0 ? Math.round((score / total) * 100) : 0;
   const resultTier =
     percent >= 90
       ? "A'lo!"
@@ -97,6 +211,12 @@ function Quiz() {
         : percent >= 50
           ? "Yomon emas"
           : "Yana urinib ko'ring";
+
+  const hasMissed = missedWords.length > 0;
+
+  if (!currentQuiz) {
+    return <QuizNotFound />;
+  }
 
   return (
     <div className="bq-root">
@@ -138,7 +258,13 @@ function Quiz() {
         </Link>
         {screen === "quiz" && (
           <div className="bq-badge">
+            {isReview && <span className="bq-badge-review">Takrorlash</span>}
             {index + 1} / {total}
+          </div>
+        )}
+        {screen === "flashcards" && flashWords.length > 0 && (
+          <div className="bq-badge">
+            {flashIndex + 1} / {flashWords.length}
           </div>
         )}
       </header>
@@ -159,18 +285,48 @@ function Quiz() {
       <div className="bq-card-outer">
         {screen === "start" && (
           <div className="bq-card bq-start">
+            <button
+              className="bq-words-btn"
+              onClick={() => setShowWords(true)}
+              aria-label="Barcha so'zlarni ko'rish"
+              title="Barcha so'zlarni ko'rish"
+            >
+              <List size={18} />
+            </button>
+
             <div className="bq-start-icon">
               <Zap size={34} color="#fff" fill="#fff" />
             </div>
-            <h1>Nemis tili — Tanishuv lug'ati</h1>
-            <p>
-              20 ta savol orqali tanishuv va salomlashishga oid nemischa
-              so'zlarni bilimingizni sinab ko'ring. Har bir savolda nemischa
-              so'z ko'rsatiladi — siz to'g'ri o'zbekcha tarjimasini tanlaysiz.
-            </p>
+            <h1>{currentQuiz.quizTitle}</h1>
+            <p>{currentQuiz.quizDescription}</p>
+
+            <div className="bq-mode-switch" role="tablist" aria-label="Test rejimi">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "quick"}
+                className={`bq-mode-option ${mode === "quick" ? "active" : ""}`}
+                onClick={() => setMode("quick")}
+              >
+                <span className="bq-mode-title">Tezkor test</span>
+                <span className="bq-mode-sub">{quickCount} ta so'z</span>
+              </button>
+              <button
+                type="button"
+                role="tab"
+                aria-selected={mode === "full"}
+                className={`bq-mode-option ${mode === "full" ? "active" : ""}`}
+                onClick={() => setMode("full")}
+              >
+                <span className="bq-mode-title">To'liq test</span>
+                <span className="bq-mode-sub">{quizWords.length} ta so'z</span>
+              </button>
+              <div className={`bq-mode-thumb ${mode === "full" ? "right" : ""}`} />
+            </div>
+
             <div className="bq-stats-row">
               <div className="bq-stat-chip">
-                <b>{total}</b>
+                <b>{previewTotal}</b>
                 <span>Savollar</span>
               </div>
               <div className="bq-stat-chip">
@@ -182,8 +338,28 @@ function Quiz() {
                 <span>Daraja</span>
               </div>
             </div>
-            <button className="bq-btn" onClick={startQuiz}>
+
+            <button className="bq-btn bq-btn-full" onClick={startQuiz}>
               Boshlash <ChevronRight size={18} />
+            </button>
+
+            <div className="bq-divider">
+              <span>yoki</span>
+            </div>
+
+            <button className="bq-flash-cta" onClick={startFlashcards}>
+              <span className="bq-flash-cta-icon">
+                <Layers size={20} />
+              </span>
+              <span className="bq-flash-cta-text">
+                <span className="bq-flash-cta-title">
+                  Kartochkalar bilan yodlash
+                </span>
+                <span className="bq-flash-cta-sub">
+                  {quizWords.length} ta so'zni ko'rib chiqing
+                </span>
+              </span>
+              <ChevronRight size={18} className="bq-flash-cta-arrow" />
             </button>
           </div>
         )}
@@ -240,6 +416,57 @@ function Quiz() {
           </div>
         )}
 
+        {screen === "flashcards" && currentFlash && (
+          <div className="bq-flash-wrap">
+            <div className="bq-flash-scene" onClick={flipCard}>
+              <div className={`bq-flash-card ${flipped ? "flipped" : ""}`}>
+                <div className="bq-flash-face bq-flash-front">
+                  <span className="bq-flash-lang">Nemischa</span>
+                  <span className="bq-flash-word">{currentFlash.de}</span>
+                  <span className="bq-flash-hint">
+                    <RotateCw size={14} /> Aylantirish uchun bosing
+                  </span>
+                </div>
+                <div className="bq-flash-face bq-flash-back">
+                  <span className="bq-flash-lang">O'zbekcha</span>
+                  <span className="bq-flash-word">{currentFlash.uz}</span>
+                  <span className="bq-flash-hint">
+                    <RotateCw size={14} /> Qaytarish uchun bosing
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="bq-flash-controls">
+              <button
+                className="bq-flash-nav"
+                onClick={prevFlashcard}
+                aria-label="Oldingi"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button
+                className="bq-flash-shuffle"
+                onClick={reshuffleFlashcards}
+                aria-label="Aralashtirish"
+              >
+                <Shuffle size={17} /> Aralashtirish
+              </button>
+              <button
+                className="bq-flash-nav"
+                onClick={nextFlashcard}
+                aria-label="Keyingi"
+              >
+                <ChevronRight size={20} />
+              </button>
+            </div>
+
+            <button className="bq-flash-exit" onClick={() => setScreen("start")}>
+              <ArrowLeft size={16} /> Orqaga
+            </button>
+          </div>
+        )}
+
         {screen === "result" && (
           <div className="bq-card bq-result">
             <div className="bq-trophy">
@@ -270,14 +497,81 @@ function Quiz() {
               ))}
             </div>
 
+            {hasMissed && (
+              <div className="bq-missed-prompt">
+                <div className="bq-missed-icon">
+                  <RefreshCw size={18} />
+                </div>
+                <div className="bq-missed-text">
+                  <div className="bq-missed-title">
+                    Xato so'zlarni takrorlamoqchimisiz?
+                  </div>
+                  <div className="bq-missed-sub">
+                    {missedWords.length} ta so'zni qayta mashq qiling
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="bq-result-actions">
+              {hasMissed && (
+                <button className="bq-btn bq-btn-secondary" onClick={startReview}>
+                  <RefreshCw size={17} /> Xatolarni takrorlash
+                </button>
+              )}
               <button className="bq-btn" onClick={restart}>
                 <RotateCcw size={17} /> Qayta boshlash
               </button>
+              <Link className="bq-btn bq-btn-secondary" to="/">
+                <HomeIcon size={17} /> Bosh sahifaga qaytish
+              </Link>
             </div>
+
+            {!hasMissed && score === total && (
+              <div className="bq-perfect-note">
+                <PartyPopper size={16} /> Barcha savollarga to'g'ri javob berdingiz!
+              </div>
+            )}
           </div>
         )}
       </div>
+
+      {showWords && (
+        <div
+          className="bq-words-overlay"
+          onClick={() => setShowWords(false)}
+        >
+          <div
+            className="bq-words-modal"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Barcha so'zlar"
+          >
+            <div className="bq-words-header">
+              <div className="bq-words-header-text">
+                <h3>{currentQuiz.unitName}</h3>
+                <span>{quizWords.length} ta so'z</span>
+              </div>
+              <button
+                className="bq-words-close"
+                onClick={() => setShowWords(false)}
+                aria-label="Yopish"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <div className="bq-words-list">
+              {quizWords.map((w, i) => (
+                <div className="bq-words-row" key={i}>
+                  <span className="bq-words-de">{w.de}</span>
+                  <span className="bq-words-uz">{w.uz}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

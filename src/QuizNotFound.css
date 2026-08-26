@@ -1,0 +1,52 @@
+.bq-notfound {
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.bq-notfound-icon {
+  width: 74px;
+  height: 74px;
+  margin: 0 auto 22px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, var(--error, #fb7185), var(--purple, #8b5cf6));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(251, 113, 133, 0.45);
+  animation: bq-notfound-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes bq-notfound-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(251, 113, 133, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 42px rgba(139, 92, 246, 0.6);
+  }
+}
+
+.bq-notfound h1 {
+  font-family: "Orbitron", sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.3px;
+  margin: 0 0 12px;
+}
+
+.bq-notfound p {
+  color: var(--text-muted, #9c8fc2);
+  font-size: 15px;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 30px;
+}
+
+@media (max-width: 480px) {
+  .bq-notfound {
+    padding: 28px 16px;
+  }
+  .bq-notfound h1 {
+    font-size: 22px;
+  }
+}

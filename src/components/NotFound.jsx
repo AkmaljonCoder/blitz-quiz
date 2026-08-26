@@ -242,12 +242,15 @@ export default function NotFound() {
 
       <div style={{ position: "relative", flex: 1, display: "flex", flexDirection: "column" }}>
         <header className="bq4-header">
-          <div className="bq4-logo">
-            <div className="bq4-logo-icon">
-              <Zap size={19} color="#fff" fill="#fff" />
-            </div>
-            <div className="bq4-logo-text">Blitz<span> Quiz</span></div>
+          <Link className="bqh-logo" to="/">
+          <div className="bqh-logo-icon">
+            <Zap size={19} color="#fff" fill="#fff" />
           </div>
+          <div className="bqh-logo-text">
+            Blitz<span> Quiz</span>
+          </div>
+        </Link>
+          
         </header>
 
         <main className="bq4-main">

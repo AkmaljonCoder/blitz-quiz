@@ -5,24 +5,15 @@ import {
   BookOpen,
   Brain,
   BarChart3,
-  Sparkles,
+  FileStack,
   ArrowRight,
   Layers,
   Timer,
 } from "lucide-react";
 import '../App.css';
 
-// ---------------------------------------------------------------------------
-// Unit links — rename / point these to your real routes for each unit quiz
-// ---------------------------------------------------------------------------
-const UNITS = [
-  { id: 1, quantity: 20, title: "Ich heiße Miriam.", href: "unit-1" },
-  { id: 2, quantity: 20, title: "Was macht ihr beruflich?", href: "unit-2" },
-  { id: 3, quantity: 20, title: "Das ist meine Schwester.", href: "unit-3" },
-  { id: 4, quantity: 20, title: "Das Bild ist so schön.", href: "unit-4" },
-  { id: 5, quantity: 20, title: "Ist das ein Tisch?", href: "unit-5" },
-  { id: 6, quantity: 20, title: "Wir haben einen Termin.", href: "unit-6" },
-];
+// VOCABULARY
+import VOCAB from "../VOCAB";
 
 const FEATURES = [
   {
@@ -57,6 +48,7 @@ function useReveal() {
 }
 
 function BlitzQuizHome() {
+
   const shown = useReveal();
 
   return (
@@ -77,7 +69,7 @@ function BlitzQuizHome() {
             <div className="bqh-logo-text">Blitz<span> Quiz</span></div>
           </Link>
           <div className="bqh-badge">
-            <Sparkles size={13} /> 6 ta dars
+            <FileStack size={13} /> Daraja - A1.1
           </div>
         </header>
 
@@ -133,13 +125,13 @@ function BlitzQuizHome() {
             <p>Har bir unit uchun alohida test — o'zingizga kerakli darsni boshlang</p>
           </div>
           <div className="bqh-units">
-            {UNITS.map((u, i) => (
-              <Link className="bqh-unit" to="quiz" key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
+            {VOCAB.map((u, i) => (
+              <Link className="bqh-unit" to={`/quiz/${u.id}`} key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
                 <div className="bqh-unit-left">
                   <div className="bqh-unit-num">{u.id}</div>
                   <div>
-                    <div className="bqh-unit-title">{u.title}</div>
-                    <div className="bqh-unit-sub">{u.quantity} ta savol</div>
+                    <div className="bqh-unit-title">{u.unitName}</div>
+                    <div className="bqh-unit-sub">{u.wordQuantity} ta savol</div>
                   </div>
                 </div>
                 <ArrowRight size={18} className="bqh-unit-arrow" />

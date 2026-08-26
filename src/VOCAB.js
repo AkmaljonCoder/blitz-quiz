@@ -5,8 +5,10 @@
 const VOCAB = [
   {
     id: 1,
-    unitName: "Lektion 1",
+    unitName: "Ich heiße Miriam.",
     wordQuantity: 48,
+    quizTitle: "Nemis tili - Tanishuv lug‘ati",
+    quizDescription: "20 ta savol orqali tanishuv va salomlashishga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "wie", uz: "qanday" },
       { de: "heißt (heißen)", uz: "nomlanadi / ataladi (atalmoq)" },
@@ -60,8 +62,10 @@ const VOCAB = [
   },
   {
     id: 2,
-    unitName: "Lektion 2",
+    unitName: "Was macht ihr beruflich?",
     wordQuantity: 100,
+    quizTitle: "Nemis tili - Kasblar va shaxsiy ma’lumotlar",
+    quizDescription: "20 ta savol orqali kasblar, ism, yosh, telefon raqami va boshqa shaxsiy ma’lumotlarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "Jahre alt", uz: "yoshda" },
       { de: "das Jahr, -e", uz: "yil" },
@@ -167,8 +171,10 @@ const VOCAB = [
   },
   {
     id: 3,
-    unitName: "Lektion 3",
+    unitName: "Das ist meine Schwester.",
     wordQuantity: 52,
+    quizTitle: "Nemis tili - Oila va qarindoshlar",
+    quizDescription: "20 ta savol orqali oila a’zolari va qarindoshlarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "die Familie, -n", uz: "oila" },
       { de: "die Mutter, ¨-", uz: "ona" },
@@ -226,8 +232,10 @@ const VOCAB = [
   },
   {
     id: 4,
-    unitName: "Lektion 4",
+    unitName: "Das Bild ist so schön.",
     wordQuantity: 48,
+    quizTitle: "Nemis tili - Uy va mebellar",
+    quizDescription: "20 ta savol orqali uy, xonalar va mebellarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "das Bett, -en", uz: "karavot / to'shak" },
       { de: "das Bild, -er", uz: "rasm / surat" },
@@ -281,8 +289,10 @@ const VOCAB = [
   },
   {
     id: 5,
-    unitName: "Lektion 5",
+    unitName: "Ist das ein Tisch?",
     wordQuantity: 89,
+    quizTitle: "Nemis tili - Buyumlar va ranglar",
+    quizDescription: "20 ta savol orqali kundalik buyumlar, ranglar va ularning xususiyatlariga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "die Uhr, -en", uz: "soat" },
       { de: "das Auto, -s", uz: "mashina" },
@@ -377,8 +387,10 @@ const VOCAB = [
   },
   {
     id: 6,
-    unitName: "Lektion 6",
+    unitName: "Wir haben einen Termin.",
     wordQuantity: 53,
+    quizTitle: "Nemis tili - Ishxona va uchrashuvlar",
+    quizDescription: "20 ta savol orqali ishxona, kompyuter va uchrashuvlarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "Oh Gott!", uz: "Voy Xudo! / Ey Xudo!" },
       { de: "der Gott, ¨ -er", uz: "xudo / iloh" },
@@ -437,8 +449,10 @@ const VOCAB = [
   },
   {
     id: 7,
-    unitName: "Lektion 7",
+    unitName: "Sie können super tanzen!",
     wordQuantity: 67,
+    quizTitle: "Nemis tili - Xobbi va bo‘sh vaqt",
+    quizDescription: "20 ta savol orqali sevimli mashg‘ulotlar, sport va bo‘sh vaqtga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "können (ich kann, du kannst, er/sie/es kann)", uz: "qila olmoq" },
       { de: "tanzen (du tanzt)", uz: "raqsga tushmoq" },
@@ -511,8 +525,10 @@ const VOCAB = [
   },
   {
     id: 8,
-    unitName: "Lektion 8",
+    unitName: "Ich habe leider keine Zeit.",
     wordQuantity: 86,
+    quizTitle: "Nemis tili - Vaqt va kun tartibi",
+    quizDescription: "20 ta savol orqali hafta kunlari, vaqt, uchrashuvlar va kun tartibiga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "das Schwimmbad, -¨er", uz: "suzish havzasi" },
       { de: "das Kino, -s", uz: "kino" },
@@ -604,8 +620,10 @@ const VOCAB = [
   },
   {
     id: 9,
-    unitName: "Lektion 9",
+    unitName: "Ich mag Hamburger.",
     wordQuantity: 85,
+    quizTitle: "Nemis tili - Oziq-ovqat va ichimliklar",
+    quizDescription: "20 ta savol orqali oziq-ovqat, ichimliklar va restoranga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "mögen (ich mag, du magst, er/sie/es mag)", uz: "yoqtirmoq" },
       { de: "Ich mag Hamburger.", uz: "Men gamburgerni yoqtiraman" },
@@ -696,8 +714,10 @@ const VOCAB = [
   },
   {
     id: 10,
-    unitName: "Lektion 10",
+    unitName: "Wann kommst du denn an?",
     wordQuantity: 69,
+    quizTitle: "Nemis tili - Sayohat va transport",
+    quizDescription: "20 ta savol orqali sayohat, transport va yo‘lga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "der Flughafen, -¨e", uz: "aeroport" },
       { de: "chatten (du chattest, er/sie/es chattet)", uz: "chat qilmoq" },
@@ -772,8 +792,10 @@ const VOCAB = [
   },
   {
     id: 11,
-    unitName: "Lektion 11",
+    unitName: "Was haben Sie gestern gemacht?",
     wordQuantity: 50,
+    quizTitle: "Nemis tili - Kecha va kundalik faoliyatlar",
+    quizDescription: "20 ta savol orqali kundalik faoliyatlar va o‘tmishda bajarilgan ish-harakatlarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "gestern", uz: "kecha" },
       { de: "der Spaziergang, -¨e", uz: "sayr" },
@@ -829,8 +851,10 @@ const VOCAB = [
   },
   {
     id: 12,
-    unitName: "Lektion 12",
+    unitName: "Im Frühling bin ich nach Hamburg gefahren.",
     wordQuantity: 41,
+    quizTitle: "Nemis tili - Fasllar, oylar va sayohatlar",
+    quizDescription: "20 ta savol orqali fasllar, oylar, ob-havo va sayohatlarga oid nemischa so‘zlarni bilimingizni sinab ko‘ring. Har bir savolda nemischa so‘z ko‘rsatiladi — siz to‘g‘ri o‘zbekcha tarjimasini tanlaysiz.",
     words: [
       { de: "der Marathon, -s", uz: "marafon" },
       { de: "laufen", uz: "yugurmoq" },
