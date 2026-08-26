@@ -19,7 +19,7 @@ const UNITS = [
   { id: 1, quantity: 20, title: "Ich heiße Miriam.", href: "unit-1" },
   { id: 2, quantity: 20, title: "Was macht ihr beruflich?", href: "unit-2" },
   { id: 3, quantity: 20, title: "Das ist meine Schwester.", href: "unit-3" },
-  { id: 4, quantity: 20, title: "Das ist meine Schwester.", href: "unit-4" },
+  { id: 4, quantity: 20, title: "Das Bild ist so schön.", href: "unit-4" },
   { id: 5, quantity: 20, title: "Ist das ein Tisch?", href: "unit-5" },
   { id: 6, quantity: 20, title: "Wir haben einen Termin.", href: "unit-6" },
 ];
