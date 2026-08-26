@@ -134,7 +134,7 @@ function BlitzQuizHome() {
           </div>
           <div className="bqh-units">
             {UNITS.map((u, i) => (
-              <Link className="bqh-unit" to={u.href} key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
+              <Link className="bqh-unit" to="quiz" key={u.id} style={{ transitionDelay: `${i * 60}ms` }}>
                 <div className="bqh-unit-left">
                   <div className="bqh-unit-num">{u.id}</div>
                   <div>

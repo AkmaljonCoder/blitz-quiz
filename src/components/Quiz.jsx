@@ -29,7 +29,7 @@ function buildQuiz() {
   });
 }
 
-function Unit1() {
+function Quiz() {
   const quiz = useMemo(() => buildQuiz(), []);
   const total = quiz.length;
 
@@ -282,4 +282,4 @@ function Unit1() {
   );
 }
 
-export default Unit1;
+export default Quiz;

@@ -1,6 +1,17 @@
 // ---------------------------------------------------------------------------
 // Lektion 1 — Tanishuv va salomlashish
 // ---------------------------------------------------------------------------
+
+export const VOCAB = [
+  {
+    id: 1,
+    unitName: "Ich heiße Miriam.",
+    wordQuantity: 20,
+    
+
+  }
+];
+
 export const VOCAB_LEKTION_1 = [
   { de: "Hallo", uz: "salom" },
   { de: "Guten Tag", uz: "hayrli kun" },
