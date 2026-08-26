@@ -74,6 +74,7 @@ function Quiz() {
   const [flashWords, setFlashWords] = useState([]);
   const [flashIndex, setFlashIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
 
   // ALL WORDS MODAL
   const [showWords, setShowWords] = useState(false);
@@ -103,7 +104,7 @@ function Quiz() {
         .filter((a) => !a.isCorrect)
         .map((a) => quizWords.find((w) => w.de === a.de))
         .filter(Boolean),
-    [answers, quizWords]
+    [answers, quizWords],
   );
 
   function startQuiz() {
@@ -145,28 +146,52 @@ function Quiz() {
     setFlipped((f) => !f);
   }
 
-  function nextFlashcard() {
-    if (flashIndex + 1 >= flashWords.length) {
-      setFlashIndex(0);
+  const FLIP_DURATION = 550; // must match .bq-flash-card transition time in CSS
+
+  function goToFlashcard(getNextIndex) {
+    if (transitioning) return;
+
+    if (flipped) {
+      // card is showing the translation — flip it back first,
+      // and only swap the word once it's fully facing German side again
+      setTransitioning(true);
+      setFlipped(false);
+      setTimeout(() => {
+        setFlashIndex(getNextIndex);
+        setTransitioning(false);
+      }, FLIP_DURATION);
     } else {
-      setFlashIndex((i) => i + 1);
+      // already showing German side, safe to swap immediately
+      setFlashIndex(getNextIndex);
     }
-    setFlipped(false);
+  }
+
+  function nextFlashcard() {
+    goToFlashcard((prevIndex) =>
+      flashIndex + 1 >= flashWords.length ? 0 : flashIndex + 1,
+    );
   }
 
   function prevFlashcard() {
-    if (flashIndex === 0) {
-      setFlashIndex(flashWords.length - 1);
-    } else {
-      setFlashIndex((i) => i - 1);
-    }
-    setFlipped(false);
+    goToFlashcard(() =>
+      flashIndex === 0 ? flashWords.length - 1 : flashIndex - 1,
+    );
   }
 
   function reshuffleFlashcards() {
-    setFlashWords(shuffle(quizWords));
-    setFlashIndex(0);
-    setFlipped(false);
+    if (transitioning) return;
+    if (flipped) {
+      setTransitioning(true);
+      setFlipped(false);
+      setTimeout(() => {
+        setFlashWords(shuffle(quizWords));
+        setFlashIndex(0);
+        setTransitioning(false);
+      }, FLIP_DURATION);
+    } else {
+      setFlashWords(shuffle(quizWords));
+      setFlashIndex(0);
+    }
   }
 
   function handleSelect(opt) {
@@ -300,7 +325,11 @@ function Quiz() {
             <h1>{currentQuiz.quizTitle}</h1>
             <p>{currentQuiz.quizDescription}</p>
 
-            <div className="bq-mode-switch" role="tablist" aria-label="Test rejimi">
+            <div
+              className="bq-mode-switch"
+              role="tablist"
+              aria-label="Test rejimi"
+            >
               <button
                 type="button"
                 role="tab"
@@ -321,7 +350,9 @@ function Quiz() {
                 <span className="bq-mode-title">To'liq test</span>
                 <span className="bq-mode-sub">{quizWords.length} ta so'z</span>
               </button>
-              <div className={`bq-mode-thumb ${mode === "full" ? "right" : ""}`} />
+              <div
+                className={`bq-mode-thumb ${mode === "full" ? "right" : ""}`}
+              />
             </div>
 
             <div className="bq-stats-row">
@@ -418,7 +449,12 @@ function Quiz() {
 
         {screen === "flashcards" && currentFlash && (
           <div className="bq-flash-wrap">
-            <div className="bq-flash-scene" onClick={flipCard}>
+            <div
+              className="bq-flash-scene"
+              onClick={() => {
+                if (!transitioning) flipCard();
+              }}
+            >
               <div className={`bq-flash-card ${flipped ? "flipped" : ""}`}>
                 <div className="bq-flash-face bq-flash-front">
                   <span className="bq-flash-lang">Nemischa</span>
@@ -441,6 +477,7 @@ function Quiz() {
               <button
                 className="bq-flash-nav"
                 onClick={prevFlashcard}
+                disabled={transitioning}
                 aria-label="Oldingi"
               >
                 <ChevronLeft size={20} />
@@ -448,6 +485,7 @@ function Quiz() {
               <button
                 className="bq-flash-shuffle"
                 onClick={reshuffleFlashcards}
+                disabled={transitioning}
                 aria-label="Aralashtirish"
               >
                 <Shuffle size={17} /> Aralashtirish
@@ -455,13 +493,17 @@ function Quiz() {
               <button
                 className="bq-flash-nav"
                 onClick={nextFlashcard}
+                disabled={transitioning}
                 aria-label="Keyingi"
               >
                 <ChevronRight size={20} />
               </button>
             </div>
 
-            <button className="bq-flash-exit" onClick={() => setScreen("start")}>
+            <button
+              className="bq-flash-exit"
+              onClick={() => setScreen("start")}
+            >
               <ArrowLeft size={16} /> Orqaga
             </button>
           </div>
@@ -515,7 +557,10 @@ function Quiz() {
 
             <div className="bq-result-actions">
               {hasMissed && (
-                <button className="bq-btn bq-btn-secondary" onClick={startReview}>
+                <button
+                  className="bq-btn bq-btn-secondary"
+                  onClick={startReview}
+                >
                   <RefreshCw size={17} /> Xatolarni takrorlash
                 </button>
               )}
@@ -529,7 +574,8 @@ function Quiz() {
 
             {!hasMissed && score === total && (
               <div className="bq-perfect-note">
-                <PartyPopper size={16} /> Barcha savollarga to'g'ri javob berdingiz!
+                <PartyPopper size={16} /> Barcha savollarga to'g'ri javob
+                berdingiz!
               </div>
             )}
           </div>
@@ -537,10 +583,7 @@ function Quiz() {
       </div>
 
       {showWords && (
-        <div
-          className="bq-words-overlay"
-          onClick={() => setShowWords(false)}
-        >
+        <div className="bq-words-overlay" onClick={() => setShowWords(false)}>
           <div
             className="bq-words-modal"
             onClick={(e) => e.stopPropagation()}

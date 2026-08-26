@@ -1321,3 +1321,16 @@ a.bq-btn {
     height: 34px;
   }
 }
+
+/* Disabled state during flip-back transition */
+.bq-flash-nav:disabled,
+.bq-flash-shuffle:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none !important;
+}
+.bq-flash-nav:disabled:hover,
+.bq-flash-shuffle:disabled:hover {
+  border-color: var(--card-border);
+  background: rgba(255, 255, 255, 0.05);
+}
