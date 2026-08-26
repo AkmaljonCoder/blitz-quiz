@@ -7,9 +7,6 @@ import NotFound from "./components/NotFound";
 const App = () => {
   return (
     <BrowserRouter>
-      {/* <Link to="/">Home</Link>
-      <Link to="/unit1">About</Link> */}
-
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/quiz/:id" element={<Quiz />} />
