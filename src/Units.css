@@ -1153,19 +1153,49 @@ a.bq-btn {
   text-align: right;
 }
 
+.bq-flash-exit-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+a.bq-flash-exit {
+  text-decoration: none;
+}
+
+.bq-start-home {
+  display: flex;
+  justify-content: center;
+  margin: 16px auto 0;
+}
+
 /* ============================= */
 /* MOBILE — everything below wins on small screens */
 /* ============================= */
 
 @media (max-width: 600px) {
   .bq-root {
-    padding: 20px 14px 44px;
+    padding: 20px 0 0;
+  }
+  .bq-header,
+  .bq-progress-wrap {
+    padding: 0 16px;
+  }
+  .bq-card-outer {
+    max-width: 100%;
+    padding: 0;
   }
   .bq-card {
-    padding: 30px 22px;
+    min-height: calc(100vh - 130px);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    padding: 28px 20px 40px !important;
+    box-shadow: none;
   }
   .bq-start {
-    padding: 12px 2px;
+    padding: 12px 0;
   }
   .bq-question {
     font-size: 21px;
@@ -1255,15 +1285,16 @@ a.bq-btn {
     width: 34px;
     height: 34px;
   }
+
+  .bq-flash-wrap {
+    padding: 8px 16px 0;
+  }
 }
 
 @media (max-width: 420px) {
-  .bq-root {
-    padding: 16px 10px 36px;
-  }
   .bq-card {
-    padding: 22px 16px;
-    border-radius: 18px;
+    padding: 22px 16px 36px;
+    border-radius: 0;
   }
   .bq-start {
     padding: 8px 0;
@@ -1329,5 +1360,9 @@ a.bq-btn {
   }
   .bq-flash-cta-sub {
     font-size: 11px;
+  }
+
+  .bq-flash-wrap {
+    padding: 6px 12px 0;
   }
 }

@@ -392,6 +392,10 @@ function Quiz() {
               </span>
               <ChevronRight size={18} className="bq-flash-cta-arrow" />
             </button>
+
+            <Link className="bq-flash-exit bq-start-home" to="/">
+              <HomeIcon size={16} /> Bosh sahifaga qaytish
+            </Link>
           </div>
         )}
 
@@ -500,12 +504,17 @@ function Quiz() {
               </button>
             </div>
 
-            <button
-              className="bq-flash-exit"
-              onClick={() => setScreen("start")}
-            >
-              <ArrowLeft size={16} /> Orqaga
-            </button>
+            <div className="bq-flash-exit-row">
+              <button
+                className="bq-flash-exit"
+                onClick={() => setScreen("start")}
+              >
+                <ArrowLeft size={16} /> Orqaga
+              </button>
+              <Link className="bq-flash-exit" to="/">
+                <HomeIcon size={16} /> Bosh sahifa
+              </Link>
+            </div>
           </div>
         )}
 
