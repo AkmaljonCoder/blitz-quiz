@@ -139,11 +139,11 @@ function BlitzQuizHome() {
             <span className="grad">o'yin kabi qiziqarli</span> tarzda yodlang
           </h1>
           <p>
-            Blitz Quiz — darslikning har bir bo'limidagi eng muhim so'zlarni
-            tez va oson yodlab olishga yordam beruvchi test ilovasi. Har bir
-            savolda nemischa so'z beriladi, siz esa 4 variantdan to'g'ri
-            o'zbekcha tarjimasini tanlaysiz. Yangi so'zlarni unutmaslik uchun
-            har darsdan so'ng shu yerda mashq qiling.
+            Blitz Quiz — darslikning har bir bo'limidagi eng muhim so'zlarni tez
+            va oson yodlab olishga yordam beruvchi test ilovasi. Har bir savolda
+            nemischa so'z beriladi, siz esa 4 variantdan to'g'ri o'zbekcha
+            tarjimasini tanlaysiz. Yangi so'zlarni unutmaslik uchun har darsdan
+            so'ng shu yerda mashq qiling.
           </p>
           <a
             className="bqh-hero-btn"
