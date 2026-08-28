@@ -49,7 +49,7 @@ const LEVELS = [
     title: "A1.1",
     tagline: "Boshlang'ich daraja",
     desc: "Tanishuv, oila, kasblar, kundalik hayot mavzularidagi asosiy so'z boyligi bilan tanishing.",
-    units: VOCAB,
+    units: VOCAB.filter(u => u.level === "a1.1"),
   },
   {
     id: "a1.2",
@@ -59,7 +59,7 @@ const LEVELS = [
     title: "A1.2",
     tagline: "Davomiy daraja",
     desc: "A1.1 darajasidan keyingi bosqich — so'z boyligingizni yanada kengaytiring.",
-    units: VOCAB,
+    units: VOCAB.filter(u => u.level === "a1.2"),
   },
 ];
 
