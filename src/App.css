@@ -694,6 +694,98 @@ html {
   margin: 4px 0;
 }
 
+/* WORDS SEARCH */
+.bq-words-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 14px 16px 4px;
+  flex-shrink: 0;
+}
+
+.bq-words-search-icon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.bq-words-search-input {
+  width: 100%;
+  font-family: "Manrope", sans-serif;
+  font-size: 14.5px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1.5px solid var(--card-border);
+  border-radius: 12px;
+  padding: 11px 38px 11px 40px;
+  outline: none;
+  transition:
+    border-color 0.18s ease,
+    background 0.18s ease;
+}
+.bq-words-search-input::placeholder {
+  color: var(--text-muted);
+}
+.bq-words-search-input:focus {
+  border-color: var(--purple-glow);
+  background: rgba(139, 92, 246, 0.08);
+}
+
+.bq-words-search-clear {
+  position: absolute;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.18s ease,
+    color 0.18s ease;
+}
+.bq-words-search-clear:hover {
+  background: rgba(251, 113, 133, 0.18);
+  color: var(--error);
+}
+
+/* NO RESULTS STATE */
+.bq-words-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 40px 20px;
+  color: var(--text-muted);
+  text-align: center;
+}
+.bq-words-empty p {
+  font-size: 13.5px;
+  word-break: break-word;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .bq-words-search {
+    margin: 12px 14px 2px;
+  }
+  .bq-words-search-input {
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+    padding: 12px 36px 12px 38px;
+  }
+  .bq-words-search-icon {
+    left: 12px;
+  }
+  .bq-words-empty {
+    padding: 30px 16px;
+  }
+}
+
 /* MOBILE */
 @media (max-width: 800px) {
   .bqh-levels {

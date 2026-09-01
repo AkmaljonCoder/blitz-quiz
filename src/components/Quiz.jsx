@@ -15,11 +15,34 @@ import {
   Shuffle,
   ArrowLeft,
   List,
+  Search,
 } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import "../Units.css";
 import { VOCAB } from "../VOCAB";
 import QuizNotFound from "./QuizNotFound";
+
+function normalizeText(str) {
+  return str
+    .toLowerCase()
+    .replace(/['’‘`´]/g, "'") // unify all apostrophe variants
+    .replace(/ä/g, "a")
+    .replace(/ö/g, "o")
+    .replace(/ü/g, "u")
+    .replace(/ß/g, "ss")
+    .replace(/¨/g, "")
+    .trim();
+}
+
+function filterWords(words, query) {
+  const q = normalizeText(query);
+  if (!q) return words;
+  return words.filter((w) => {
+    const de = normalizeText(w.de);
+    const uz = normalizeText(w.uz);
+    return de.includes(q) || uz.includes(q);
+  });
+}
 
 function shuffle(arr) {
   const a = [...arr];
@@ -78,13 +101,20 @@ function Quiz() {
 
   // ALL WORDS MODAL
   const [showWords, setShowWords] = useState(false);
+  const [wordsQuery, setWordsQuery] = useState("");
 
   useEffect(() => {
     document.body.style.overflow = showWords ? "hidden" : "";
+    if (!showWords) setWordsQuery("");
     return () => {
       document.body.style.overflow = "";
     };
   }, [showWords]);
+
+  const filteredWords = useMemo(
+    () => filterWords(quizWords, wordsQuery),
+    [quizWords, wordsQuery],
+  );
 
   const current = quiz[index];
   const currentFlash = flashWords[flashIndex];
@@ -613,14 +643,43 @@ function Quiz() {
                 <X size={20} />
               </button>
             </div>
-            <div className="bq-words-list">
-              {quizWords.map((w, i) => (
-                <div className="bq-words-row" key={i}>
-                  <span className="bq-words-de">{w.de}</span>
-                  <span className="bq-words-uz">{w.uz}</span>
-                </div>
-              ))}
+
+            <div className="bq-words-search">
+              <Search size={16} className="bq-words-search-icon" />
+              <input
+                type="text"
+                className="bq-words-search-input"
+                placeholder="So'z qidirish..."
+                value={wordsQuery}
+                onChange={(e) => setWordsQuery(e.target.value)}
+                autoFocus
+              />
+              {wordsQuery && (
+                <button
+                  className="bq-words-search-clear"
+                  onClick={() => setWordsQuery("")}
+                  aria-label="Tozalash"
+                >
+                  <X size={14} />
+                </button>
+              )}
             </div>
+
+            {filteredWords.length === 0 ? (
+              <div className="bq-words-empty">
+                <Search size={26} />
+                <p>"{wordsQuery}" bo'yicha hech narsa topilmadi</p>
+              </div>
+            ) : (
+              <div className="bq-words-list">
+                {filteredWords.map((w, i) => (
+                  <div className="bq-words-row" key={i}>
+                    <span className="bq-words-de">{w.de}</span>
+                    <span className="bq-words-uz">{w.uz}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
