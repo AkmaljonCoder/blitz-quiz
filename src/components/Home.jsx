@@ -48,7 +48,7 @@ const LEVELS = [
     theme: "purple",
     title: "A1.1",
     tagline: "Boshlang'ich daraja",
-    desc: "Tanishuv, oila, kasblar, kundalik hayot mavzularidagi asosiy so'z boyligi bilan tanishing.",
+    desc: "Salomlashuv va tanishuv, oila, kasblar, uy-ro'zg'or buyumlari, hobbilar, vaqt, oziq-ovqat va sayohat kabi kundalik mavzulardagi eng zarur so'zlarni o'rganing.",
     units: VOCAB.filter(u => u.level === "a1.1"),
   },
   {
@@ -57,10 +57,30 @@ const LEVELS = [
     sub: "1.2",
     theme: "blue",
     title: "A1.2",
-    tagline: "Davomiy daraja",
-    desc: "A1.1 darajasidan keyingi bosqich — so'z boyligingizni yanada kengaytiring.",
+    tagline: "Kundalik hayot va shahar",
+    desc: "Shahar va yo'l so'rash, uy va xonalar, sog'liq, kiyim-kechak, ob-havo, bayramlar, ish rejalari va tashqi ko'rinish kabi mavzulardagi so'zlar bilan lug'atingizni kengaytiring.",
     units: VOCAB.filter(u => u.level === "a1.2"),
   },
+  {
+    id: "a2.1",
+    letter: "A2",
+    sub: "2.1",
+    theme: "orange",
+    title: "A2.1",
+    tagline: "Ish, sayohat va odatlar",
+    desc: "Bolalik xotiralari, ish sharoiti va ofis hayoti, tadbirlar, sport, taom buyurtma qilish, shahar transporti, sayohat va shaxsiy hujjatlar mavzularidagi so'zlarni o'rganing.",
+    units: VOCAB.filter(u => u.level === "a2.1"),
+  },
+  {
+    id: "a2.2",
+    letter: "A2",
+    sub: "2.2",
+    theme: "yellowgreen",
+    title: "A2.2",
+    tagline: "Jamiyat, media va kelajak",
+    desc: "Mehmondorchilik, qo'shnichilik, jamoaviy ish, media va internet, kasbiy o'zgarishlar, barqaror turmush, orzular, ta'lim va do'konlar mavzularidagi kengaytirilgan so'z boyligini egallang.",
+    units: VOCAB.filter(u => u.level === "a2.2"),
+  }
 ];
 
 function useReveal() {
